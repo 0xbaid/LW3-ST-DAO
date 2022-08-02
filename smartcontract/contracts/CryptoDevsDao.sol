@@ -63,6 +63,19 @@ contract CryptoDevsDAO is Ownable {
             proposals[propopsalIndex].deadline > block.timestamp,
             "Proposal expired."
         );
+        _;
+    }
+
+    modifier inactiveProposalOnly(uint256 proposalIndex) {
+        require(
+            proposals[proposalIndex].deadline <= block.timestamp,
+            "Proposal active."
+        );
+        require(
+            proposal[proposalIndex].executed == false,
+            "Proposal already executed."
+        );
+        _;
     }
 
     /// @dev createProposal allows a CryptoDevsNFT holder to create a new proposal in the DAO
@@ -80,4 +93,55 @@ contract CryptoDevsDAO is Ownable {
         numProposals++;
         return numProposals - 1; //Returns the proposal index for the newly created proposal
     }
+
+    function voteOnProposal(uint256 proposalIndex, Vote vote)
+        external
+        nftHolderOnly
+        activeProposalOnly(proposalIndex)
+    {
+        Proposal storage proposal = proposals[proposalIndex];
+        uint256 voterNftBalance = cryptoDevsNFT.balanceOf(msg.sender);
+        uint256 numVotes = 0;
+
+        // Calculate how many NFTs are owned by the voter
+        // that haven't already been used for voting on this proposal
+        for (uint256 i = 0; i < voterNftBalance; i++) {
+            uint256 tokenId = cryptoDevsNFT.tokenOfOwnerByIndex(msg.sender, i);
+            if (proposal.voters == false) {
+                numVotes++;
+                proposal.voters[tokenId] = true;
+            }
+            require(numVotes > 0, "already voted");
+
+            if (vote == Vote.YAY) {
+                proposal.yayVotes += numVotes;
+            } else {
+                proposal.nayVotes += numVotes;
+            }
+        }
+    }
+
+    function executeProposal(uint256 proposalIndex)
+        external
+        nftHolderOnly
+        inactiveProposalOnly(proposalIndex)
+    {
+        Proposal storage proposal = proposals[proposalIndex];
+        if (proposal.yayVotes > proposal.nayVotes) {
+            uint256 nftPrice = nftMarketplace.getPrice();
+            require(address(this).balance >= nftPrice, "Insufficient Amount.");
+            nftMarketplace.purchase{value: nftPrice}(proposal.nftTokenId);
+        }
+        proposal.executed = true;
+    }
+
+    function withdrawEther() external onlyOwner {
+        payable(owner().transfer(address(this).balance));
+    }
+
+    // The following two functions allow the contract to accept ETH deposits
+    // directly from a wallet without calling a function
+    receive() external payable {}
+
+    fallback() external payable {}
 }
