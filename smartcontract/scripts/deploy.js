@@ -25,7 +25,7 @@ async function main() {
     CRYPTODEVS_NFT_CONTRACT_ADDRESS,
     {
       // This assumes your account has at least 1 ETH in it's account
-      // Change this value as you want
+      // Change this value as you want (your wallet amount while deploying)
       value: ethers.utils.parseEther("0.5"),
     }
   );
