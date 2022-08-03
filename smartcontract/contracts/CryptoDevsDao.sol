@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 interface IFakeNFTMarketplace {
     function getPrice() external view returns (uint256);
 
-    function available(uint256 _tokenId) external view returns (uint256);
+    function available(uint256 _tokenId) external view returns (bool);
 
     function purchase(uint256 _tokenId) external payable;
 }
@@ -27,7 +27,7 @@ interface ICryptoDevsNFT {
         returns (uint256);
 }
 
-contract CryptoDevsDAO is Ownable {
+contract CryptoDevsDao is Ownable {
     struct Proposal {
         uint256 nftTokenId; //tokenID of the NFT to purchase from FakeNFTMarketplace if passes
         uint256 deadline; //proposal active
@@ -48,7 +48,7 @@ contract CryptoDevsDAO is Ownable {
     IFakeNFTMarketplace nftMarketplace;
     ICryptoDevsNFT cryptoDevsNFT;
 
-    constructor(address _nftMarketplace, address _cryptoDevsNFT) {
+    constructor(address _nftMarketplace, address _cryptoDevsNFT) payable {
         nftMarketplace = IFakeNFTMarketplace(_nftMarketplace);
         cryptoDevsNFT = ICryptoDevsNFT(_cryptoDevsNFT);
     }
@@ -72,7 +72,7 @@ contract CryptoDevsDAO is Ownable {
             "Proposal active."
         );
         require(
-            proposal[proposalIndex].executed == false,
+            proposals[proposalIndex].executed == false,
             "Proposal already executed."
         );
         _;
@@ -91,6 +91,7 @@ contract CryptoDevsDAO is Ownable {
         proposal.nftTokenId = _nftTokenId;
         proposal.deadline = block.timestamp + 5 minutes;
         numProposals++;
+
         return numProposals - 1; //Returns the proposal index for the newly created proposal
     }
 
@@ -107,7 +108,7 @@ contract CryptoDevsDAO is Ownable {
         // that haven't already been used for voting on this proposal
         for (uint256 i = 0; i < voterNftBalance; i++) {
             uint256 tokenId = cryptoDevsNFT.tokenOfOwnerByIndex(msg.sender, i);
-            if (proposal.voters == false) {
+            if (proposal.voters[tokenId] == false) {
                 numVotes++;
                 proposal.voters[tokenId] = true;
             }
@@ -136,7 +137,7 @@ contract CryptoDevsDAO is Ownable {
     }
 
     function withdrawEther() external onlyOwner {
-        payable(owner().transfer(address(this).balance));
+        payable(owner()).transfer(address(this).balance);
     }
 
     // The following two functions allow the contract to accept ETH deposits
@@ -145,3 +146,5 @@ contract CryptoDevsDAO is Ownable {
 
     fallback() external payable {}
 }
+
+//CryptoDevsDAO deployed to:  0xC94FEeC2C5Da3F812565d855A24eC967f2dcbab9
