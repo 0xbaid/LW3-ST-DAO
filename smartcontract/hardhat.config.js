@@ -8,6 +8,8 @@ module.exports = {
     georli: {
       url: process.env.ALCHEMY_API_KEY_URL,
       accounts: [process.env.GEORLI_PRIVATE_KEY],
+      gas: 2100000,
+      gasPrice: 8000000000,
     },
   },
 };

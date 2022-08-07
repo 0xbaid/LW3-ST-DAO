@@ -40,7 +40,7 @@ export default function Home() {
   const voteOnProposal = async (proposalId, _vote) => {
     try {
       const signer = await getProviderOrSigner(true);
-      const daoContract = await getDaoContractInstance(provider);
+      const daoContract = await getDaoContractInstance(signer);
 
       let vote = _vote === "YAY" ? 0 : 1;
       const tx = await daoContract.voteOnProposal(proposalId, vote);
@@ -295,7 +295,7 @@ export default function Home() {
       );
     }
   }
-
+  console.log(proposals);
   return (
     <div>
       <Head>
@@ -324,7 +324,7 @@ export default function Home() {
             </button>
             <button
               className={styles.button}
-              onClick={() => setSelectedTab("View Proposals")}
+              onClick={() => setSelectedTab("View Proposal")}
             >
               View Proposals
             </button>

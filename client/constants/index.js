@@ -1,9 +1,198 @@
 export const CRYPTODEVS_DAO_CONTRACT_ADDRESS =
-  "0xC94FEeC2C5Da3F812565d855A24eC967f2dcbab9";
-export const CRYPTODEVS_NFT_CONTRACT_ADDRESS =
-  "0xfc04a349155902FaC17C17ac5dAB93FcA92E9BA7";
+  "0x2c043d6e2910DFe299E49E2AEd34a6B4A3B8CbC1";
 
 export const CRYPTODEVS_DAO_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_nftMarketplace",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_cryptoDevsNFT",
+        type: "address",
+      },
+    ],
+    stateMutability: "payable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    stateMutability: "payable",
+    type: "fallback",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_nftTokenId",
+        type: "uint256",
+      },
+    ],
+    name: "createProposal",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalIndex",
+        type: "uint256",
+      },
+    ],
+    name: "executeProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "numProposals",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposals",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "nftTokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "yayVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "nayVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "executed",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalIndex",
+        type: "uint256",
+      },
+      {
+        internalType: "enum CryptoDevsDao.Vote",
+        name: "vote",
+        type: "uint8",
+      },
+    ],
+    name: "voteOnProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdrawEther",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
+  },
+];
+
+export const CRYPTODEVS_NFT_CONTRACT_ADDRESS =
+  "0x753FC8e2bcd3072A6C0F65bbA7826DADf4ee8d82";
+
+export const CRYPTODEVS_NFT_ABI = [
   {
     inputs: [
       {
@@ -577,193 +766,6 @@ export const CRYPTODEVS_DAO_ABI = [
   {
     inputs: [],
     name: "withdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    stateMutability: "payable",
-    type: "receive",
-  },
-];
-export const CRYPTODEVS_NFT_ABI = [
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_nftMarketplace",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_cryptoDevsNFT",
-        type: "address",
-      },
-    ],
-    stateMutability: "payable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
-    type: "event",
-  },
-  {
-    stateMutability: "payable",
-    type: "fallback",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_nftTokenId",
-        type: "uint256",
-      },
-    ],
-    name: "createProposal",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "proposalIndex",
-        type: "uint256",
-      },
-    ],
-    name: "executeProposal",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "numProposals",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "proposals",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "nftTokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "deadline",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "yayVotes",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "nayVotes",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "executed",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "proposalIndex",
-        type: "uint256",
-      },
-      {
-        internalType: "enum CryptoDevsDao.Vote",
-        name: "vote",
-        type: "uint8",
-      },
-    ],
-    name: "voteOnProposal",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "withdrawEther",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

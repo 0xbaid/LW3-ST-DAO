@@ -147,4 +147,5 @@ contract CryptoDevsDao is Ownable {
     fallback() external payable {}
 }
 
-//CryptoDevsDAO deployed to:  0xC94FEeC2C5Da3F812565d855A24eC967f2dcbab9
+// FakeNFTMarketplace deployed to:  0xA31beB672060F9D9A2da4DcC333309b8E33A0189
+// CryptoDevsDAO deployed to:  0x2c043d6e2910DFe299E49E2AEd34a6B4A3B8CbC1

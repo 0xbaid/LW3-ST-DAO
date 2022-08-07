@@ -26,7 +26,7 @@ async function main() {
     {
       // This assumes your account has at least 1 ETH in it's account
       // Change this value as you want (your wallet amount while deploying)
-      value: ethers.utils.parseEther("0.5"),
+      value: ethers.utils.parseEther("0.05"),
     }
   );
   await deployedDaoContract.deployed();
